@@ -20,8 +20,7 @@ const createSession = () => {
 };
 
 export const registerUser = async (payload) => {
-  const { email } = payload.email;
-  const user = await UserCollection.findOne({ email });
+  const user = await UserCollection.findOne({ email: payload.email });
   if (user) {
     throw createHttpError(409, 'Email in use');
   }
@@ -72,3 +71,5 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 export const logoutUser = async (sessionId) => {
   await SessionCollection.deleteOne({ _id: sessionId });
 };
+
+export const findUser = (filter) => UserCollection.findOne(filter);
